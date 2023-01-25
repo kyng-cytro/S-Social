@@ -3,16 +3,14 @@ import PostLayout from '~~/components/PostView/postLayout.vue';
 <template>
   <!-- Post View -->
   <PostViewDayLayout v-if="posts">
-    <div>
-      <PostLayout
-        :id="post.id"
-        :title="post.title"
-        :content="post.content"
-        :username="post.author.username"
-        :profile_image="post.author.profile_image"
-        v-for="post in posts"
-      />
-    </div>
+    <PostLayout
+      :id="post.id"
+      :title="post.title"
+      :content="post.content"
+      :username="post.author.username"
+      :profile_image="post.author.profile_image"
+      v-for="post in posts"
+    />
   </PostViewDayLayout>
 
   <!-- Loading animation -->
