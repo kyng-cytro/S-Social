@@ -1,42 +1,64 @@
-# Nuxt 3 Minimal Starter
+# S-Social
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+S-Social is a mini social media built with Nuxt.js, Vue.js, TypeScript, TRPC, and Prisma. It aims to provide nothing 🤣 i just figured why not test out TRPC & Prisma
 
-## Setup
+**Disclaimer: S-Social is probably unsecured and vulnerable, so use it at your own risk! 🤣🤣**
 
-Make sure to install the dependencies:
+## Features
+
+- User registration and login
+- Creating, editing, and deleting posts
+- Viewing user profiles and their posts
+- Simple and easy-to-use interface
+
+## Getting started
+
+To get started with S-Social, you will need to have Node.js and npm (or yarn) installed on your machine.
+
+1. Clone the repository:
 
 ```bash
-# yarn
-yarn install
-
-# npm
-npm install
-
-# pnpm
-pnpm install
+git clone https://github.com/yourusername/S-Social.git
 ```
 
-## Development Server
+2. Install the dependencies:
 
-Start the development server on http://localhost:3000
+```bash
+npm install
+```
+
+3. Start the development server:
 
 ```bash
 npm run dev
 ```
 
-## Production
+4. Open your browser and navigate to `http://localhost:3000` to see the application running.
 
-Build the application for production:
+## Deployment
+
+To deploy S-Social to a production environment, you can use the following command:
 
 ```bash
 npm run build
 ```
 
-Locally preview production build:
+## Built With
 
-```bash
-npm run preview
-```
+- [Nuxt.js](https://nuxtjs.org/) - The Intuitive Web Framework
+- [Vue.js](https://vuejs.org/) - The Progressive JavaScript Framework
+- [TypeScript](https://www.typescriptlang.org/) - TypeScript is JavaScript with syntax for types.
+- [TRPC](https://trpc.io/) - End-to-end typesafe APIs made easy.
+- [Prisma](https://www.prisma.io/) - Next-generation Node.js and TypeScript ORM
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Contribution
+
+Please feel free to contribute by submitting pull requests or by reporting any issues you encounter.
+
+## License
+
+S-Social is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT)
+
+## Acknowledgments
+
+S-Social is inspired by other popular social media platforms and aims to provide a similar experience in a lightweight and simple package.
