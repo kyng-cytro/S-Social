@@ -1,25 +1,8 @@
 import PostLayout from '~~/components/PostView/postLayout.vue';
 
 <template>
-  <!-- Post View -->
-  <PostViewDayLayout
-    :showUser="true"
-    :image="currentUser.profile_image"
-    :name="currentUser.username"
-    v-if="!pending"
-  >
-    <PostLayout
-      :id="item.id"
-      :title="item.title"
-      :content="item.content"
-      :username="item.author.username"
-      :profile_image="item.author.profile_image"
-      v-for="item in data"
-    />
-  </PostViewDayLayout>
-
   <!-- Loading animation -->
-  <div class="flex h-full justify-center items-center" v-else>
+  <div class="flex h-full justify-center items-center" v-if="pending">
     <svg
       aria-hidden="true"
       class="w-14 h-14 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-500"
@@ -37,6 +20,39 @@ import PostLayout from '~~/components/PostView/postLayout.vue';
       />
     </svg>
     <span class="sr-only">Loading...</span>
+  </div>
+  <!-- Post View -->
+  <PostViewDayLayout
+    :showUser="true"
+    :image="currentUser.profile_image"
+    :name="currentUser.username"
+    v-else
+    v-show="data && data.length > 0"
+  >
+    <PostLayout
+      :id="item.id"
+      :title="item.title"
+      :content="item.content"
+      :username="item.author.username"
+      :profile_image="item.author.profile_image"
+      v-for="item in data"
+    />
+  </PostViewDayLayout>
+
+  <!-- No Data -->
+  <div
+    class="flex flex-col justify-center space-y-3"
+    v-if="!pending"
+    v-show="data && data.length < 1"
+  >
+    <p>Nothing to show</p>
+    <NuxtLink
+      to="/posts/add"
+      type="button"
+      class="text-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+    >
+      Add Post
+    </NuxtLink>
   </div>
 </template>
 <script lang="ts" setup>
