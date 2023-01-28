@@ -2,14 +2,19 @@ import PostLayout from '~~/components/PostView/postLayout.vue';
 
 <template>
   <!-- Post View -->
-  <PostViewDayLayout name="KyngCytro" v-if="posts">
+  <PostViewDayLayout
+    :showUser="true"
+    :image="currentUser.profile_image"
+    :name="currentUser.username"
+    v-if="!pending"
+  >
     <PostLayout
-      :id="post.id"
-      :title="post.title"
-      :content="post.content"
-      :username="post.author.username"
-      :profile_image="post.author.profile_image"
-      v-for="post in posts"
+      :id="item.id"
+      :title="item.title"
+      :content="item.content"
+      :username="item.author.username"
+      :profile_image="item.author.profile_image"
+      v-for="item in data"
     />
   </PostViewDayLayout>
 
@@ -35,20 +40,22 @@ import PostLayout from '~~/components/PostView/postLayout.vue';
   </div>
 </template>
 <script lang="ts" setup>
-//const test = "cld9r2uhk0000cpovcgr0ehr1";
-
-const posts = ref();
-
 const { $client } = useNuxtApp();
 
-onMounted(async () => {
-  const user = useSessionStorage("user_id", null);
-  if (user.value) {
-    posts.value = await $client.post.getByAuthor.query({
-      author_id: user.value,
-    });
-  } else {
-    navigateTo("/auth");
-  }
+const currentUser = useLocalStorage("user", {
+  id: "",
+  username: "",
+  profile_image: "",
 });
+
+if (!currentUser.value.id) {
+  navigateTo("/auth");
+}
+
+const { data, pending } = await $client.posts.getByAuthor.useQuery(
+  { author_id: currentUser.value.id },
+  {
+    lazy: true,
+  }
+);
 </script>

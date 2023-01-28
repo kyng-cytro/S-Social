@@ -27,8 +27,14 @@ export const userRouter = router({
   createUser: publicProcedure
     .input(
       z.object({
-        username: z.string().min(6).max(12),
-        profile_image: z.string().min(1),
+        username: z
+          .string()
+          .min(6, { message: "username should be at least 6 characters" })
+          .max(12, { message: "username should be no more than 12 characters" })
+          .trim(),
+        profile_image: z
+          .string()
+          .min(1, { message: "Error grabbing profile image" }),
       })
     )
     .mutation(async (req) => {

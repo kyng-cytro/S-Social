@@ -2,14 +2,14 @@ import PostLayout from '~~/components/PostView/postLayout.vue';
 
 <template>
   <!-- Post View -->
-  <PostViewDayLayout v-if="posts">
+  <PostViewDayLayout :showUser="false" v-if="!pending">
     <PostLayout
-      :id="post.id"
-      :title="post.title"
-      :content="post.content"
-      :username="post.author.username"
-      :profile_image="post.author.profile_image"
-      v-for="post in posts"
+      :id="item.id"
+      :title="item.title"
+      :content="item.content"
+      :username="item.author.username"
+      :profile_image="item.author.profile_image"
+      v-for="item in data"
     />
   </PostViewDayLayout>
 
@@ -35,13 +35,9 @@ import PostLayout from '~~/components/PostView/postLayout.vue';
   </div>
 </template>
 <script lang="ts" setup>
-const user = "cld9r2uhk0000cpovcgr0ehr1";
-
 const { $client } = useNuxtApp();
 
-const posts = ref();
-
-onMounted(async () => {
-  posts.value = await $client.post.getAllPosts.query();
+const { data, pending } = await $client.posts.getAllPosts.useQuery(undefined, {
+  lazy: true,
 });
 </script>
