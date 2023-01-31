@@ -27,7 +27,8 @@
       :title="item.title"
       :content="item.content"
       :username="item.author.username"
-      :profile_image="item.author.profile_image"
+      :profile_image="item.author.profileImage"
+      :is_private="item.isPrivate"
       v-for="item in data"
     />
   </PostViewDayLayout>

@@ -10,21 +10,25 @@ export const postRouter = router({
     .query(async (req) => {
       return await prisma.post.findUnique({
         where: { id: req.input.id },
-        include: { Comment: true, author: true },
+        include: { comments: true, author: true },
       });
     }),
   getByAuthor: publicProcedure
     .input(z.object({ author_id: z.string().min(1) }))
     .query(async (req) => {
       return await prisma.post.findMany({
-        where: { userId: req.input.author_id },
-        include: { Comment: true, author: true },
+        where: {
+          author: { followers: { some: { followerId: req.input.author_id } } },
+        },
+        include: { comments: true, author: true },
+        orderBy: { createdAt: "desc" },
       });
     }),
-  getAllPosts: publicProcedure.query(async (req) => {
+  getAllPosts: publicProcedure.query(async () => {
     return await prisma.post.findMany({
-      include: { Comment: true, author: true },
-      orderBy: { created_at: "desc" },
+      where: { isPrivate: false },
+      include: { comments: true, author: true },
+      orderBy: { createdAt: "desc" },
     });
   }),
   createPost: publicProcedure
@@ -33,12 +37,12 @@ export const postRouter = router({
         title: z.string().min(1),
         content: z.string().min(1),
         userId: z.string().min(1),
+        isPrivate: z.boolean().default(false),
       })
     )
     .mutation(async (req) => {
       return await prisma.post.create({
         data: req.input,
-        include: { Comment: true, author: true },
       });
     }),
 });

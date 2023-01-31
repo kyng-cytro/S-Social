@@ -10,7 +10,6 @@ export const userRouter = router({
     .query(async (req) => {
       return await prisma.user.findUnique({
         where: { id: req.input.id },
-        select: { Post: true, username: true },
       });
     }),
   getByUserName: publicProcedure
@@ -18,7 +17,6 @@ export const userRouter = router({
     .query(async (req) => {
       return await prisma.user.findUnique({
         where: { username: req.input.username },
-        select: { Post: true, id: true },
       });
     }),
   getAllUsers: publicProcedure.query(async (req) => {
@@ -32,7 +30,7 @@ export const userRouter = router({
           .min(6, { message: "username should be at least 6 characters" })
           .max(12, { message: "username should be no more than 12 characters" })
           .trim(),
-        profile_image: z
+        profileImage: z
           .string()
           .min(1, { message: "Error grabbing profile image" }),
       })
@@ -41,7 +39,26 @@ export const userRouter = router({
       return await prisma.user.create({
         data: {
           username: req.input.username,
-          profile_image: req.input.profile_image,
+          profileImage: req.input.profileImage,
+        },
+      });
+    }),
+  followUser: publicProcedure
+    .input(
+      z.object({
+        id: z.string().min(1),
+        friend_id: z.string().min(1),
+      })
+    )
+    .mutation(async (req) => {
+      return await prisma.user.update({
+        where: { id: req.input.id },
+        data: {
+          following: {
+            create: {
+              followingId: req.input.friend_id,
+            },
+          },
         },
       });
     }),

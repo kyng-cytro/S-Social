@@ -24,7 +24,7 @@ import PostLayout from '~~/components/PostView/postLayout.vue';
   <!-- Post View -->
   <PostViewDayLayout
     :showUser="true"
-    :image="currentUser.profile_image"
+    :image="currentUser.profileImage"
     :name="currentUser.username"
     v-else
     v-show="data && data.length > 0"
@@ -34,7 +34,8 @@ import PostLayout from '~~/components/PostView/postLayout.vue';
       :title="item.title"
       :content="item.content"
       :username="item.author.username"
-      :profile_image="item.author.profile_image"
+      :profile_image="item.author.profileImage"
+      :is_private="item.isPrivate"
       v-for="item in data"
     />
   </PostViewDayLayout>
@@ -61,7 +62,7 @@ const { $client } = useNuxtApp();
 const currentUser = useLocalStorage("user", {
   id: "",
   username: "",
-  profile_image: "",
+  profileImage: "",
 });
 
 if (!currentUser.value.id) {
