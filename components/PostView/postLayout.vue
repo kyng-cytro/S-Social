@@ -2,7 +2,7 @@
   <li>
     <NuxtLink
       :to="`/posts/${id}`"
-      class="items-center block p-1 sm:flex hover:bg-slate-100 dark:hover:bg-gray-700 rounded-md"
+      class="items-center p-1 flex hover:bg-slate-100 dark:hover:bg-gray-700 rounded-md"
     >
       <img
         class="w-12 h-12 mb-3 mr-3 rounded-full sm:mb-0"
@@ -10,13 +10,13 @@
         :alt="username"
       />
       <div class="text-gray-600 dark:text-gray-400">
-        <div class="text-base font-normal">
-          <span class="pl-1 font-medium text-gray-900 dark:text-white">{{
+        <div class="text-sm sm:text-base font-normal">
+          <span class="font-medium text-gray-900 dark:text-white">{{
             title
           }}</span>
         </div>
         <div
-          class="max-w-lg md:max-w-xl lg:max-w-2xl text-ellipsis overflow-hidden text-sm font-normal"
+          class="max-w-lg md:max-w-xl lg:max-w-2xl text-ellipsis overflow-hidden text-xs sm:text-sm font-normal"
         >
           "{{ content }}"
         </div>

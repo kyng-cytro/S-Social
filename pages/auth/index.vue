@@ -6,7 +6,7 @@
     <p class="text-sm text-red-500" v-show="showError.status">
       {{ showError.message }}
     </p>
-    <div>
+    <div class="w-full">
       <label
         for="username"
         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -30,6 +30,33 @@
         />
       </div>
     </div>
+    <div class="w-full">
+      <label
+        for="avatar"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Avatar Style</label
+      >
+      <div class="flex space-x-2">
+        <ButtonsAvatarStyle
+          src="https://api.dicebear.com/5.x/adventurer/svg"
+          @click="avatar_prefix = 'https://api.dicebear.com/5.x/adventurer/svg'"
+          :avatar="avatar_prefix"
+          name="Adventurer"
+        />
+        <ButtonsAvatarStyle
+          src="https://api.dicebear.com/5.x/big-smile/svg"
+          @click="avatar_prefix = 'https://api.dicebear.com/5.x/big-smile/svg'"
+          :avatar="avatar_prefix"
+          name="Big Smile"
+        />
+        <ButtonsAvatarStyle
+          src="https://api.dicebear.com/5.x/croodles/svg"
+          @click="avatar_prefix = 'https://api.dicebear.com/5.x/croodles/svg'"
+          :avatar="avatar_prefix"
+          name="Croodles"
+        />
+      </div>
+    </div>
     <div>
       <ButtonsNormal :loading="loading" text="Get Started" />
     </div>
@@ -42,6 +69,8 @@ const { $client } = useNuxtApp();
 const username = ref("");
 
 const loading = ref(false);
+
+const avatar_prefix = ref("https://api.dicebear.com/5.x/adventurer/svg");
 
 const showError = ref({
   status: false,
@@ -67,7 +96,7 @@ const handle_submit = async () => {
   try {
     const user = await $client.users.createUser.mutate({
       username: username.value,
-      profileImage: `https://api.dicebear.com/5.x/adventurer/svg?seed=${username.value}`,
+      profileImage: `${avatar_prefix.value}?seed=${username.value}`,
     });
     currentUser.value = {
       id: user.id,
