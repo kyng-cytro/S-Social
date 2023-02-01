@@ -9,17 +9,13 @@
         :src="profile_image"
         :alt="username"
       />
-      <div class="text-gray-600 dark:text-gray-400">
+      <div class="w-5/6 text-gray-600 dark:text-gray-400">
         <div class="text-sm sm:text-base font-normal">
           <span class="font-medium text-gray-900 dark:text-white">{{
             title
           }}</span>
         </div>
-        <div
-          class="max-w-lg md:max-w-xl lg:max-w-2xl text-ellipsis overflow-hidden text-xs sm:text-sm font-normal"
-        >
-          "{{ content }}"
-        </div>
+        <p class="truncate text-xs sm:text-sm font-normal">"{{ content }}"</p>
 
         <PostViewPrivateBadge v-if="is_private" />
         <PostViewPublicBadge v-else />

@@ -1,8 +1,6 @@
-import PostLayout from '~~/components/PostView/postLayout.vue';
-
 <template>
   <!-- Loading animation -->
-  <div class="flex h-full justify-center items-center" v-if="pending">
+  <div class="flex items-center justify-center" v-if="pending">
     <svg
       aria-hidden="true"
       class="w-14 h-14 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-500"
