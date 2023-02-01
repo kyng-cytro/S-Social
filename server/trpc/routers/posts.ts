@@ -31,6 +31,27 @@ export const postRouter = router({
       orderBy: { createdAt: "desc" },
     });
   }),
+  addComment: publicProcedure
+    .input(
+      z.object({
+        post_id: z.string(),
+        user_id: z.string(),
+        text: z.string(),
+      })
+    )
+    .mutation(async (req) => {
+      return await prisma.post.update({
+        where: { id: req.input.post_id },
+        data: {
+          comments: {
+            create: {
+              text: req.input.text,
+              userId: req.input.user_id,
+            },
+          },
+        },
+      });
+    }),
   createPost: publicProcedure
     .input(
       z.object({

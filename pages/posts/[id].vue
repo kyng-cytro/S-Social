@@ -25,7 +25,7 @@
     </div>
 
     <!-- Comment Form -->
-    <form @submit.prevent="handle_submit">
+    <form @submit.prevent="handle_submit" v-if="currentUser.id">
       <div class="mb-6">
         <textarea
           type="text"
@@ -41,7 +41,7 @@
     </form>
 
     <!-- Comment History -->
-    <div class="overflow-y-scroll">
+    <div class="h-60 overflow-y-scroll">
       <span>Comments</span>
       <CommentHistory v-if="post">
         <Comment
@@ -67,7 +67,26 @@ const loading = ref(false);
 
 const new_comment = ref("");
 
-const { data: post } = await $client.posts.getById.useQuery({ id });
+const { data: post, refresh } = await $client.posts.getById.useQuery(
+  { id },
+  { lazy: true }
+);
 
-const handle_submit = async () => {};
+const currentUser = useLocalStorage("user", {
+  id: "",
+  username: "",
+  profileImage: "",
+});
+
+const handle_submit = async () => {
+  loading.value = true;
+  await $client.posts.addComment.mutate({
+    post_id: id as string,
+    text: new_comment.value,
+    user_id: currentUser.value.id,
+  });
+  refresh();
+  new_comment.value = "";
+  loading.value = false;
+};
 </script>
