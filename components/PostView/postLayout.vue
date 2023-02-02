@@ -4,12 +4,12 @@
       :to="`/posts/${id}`"
       class="items-center p-1 flex hover:bg-slate-100 dark:hover:bg-gray-700 rounded-md"
     >
-      <img
+      <nuxt-img
         class="w-12 h-12 mb-3 mr-3 rounded-full sm:mb-0"
         :src="profile_image"
         :alt="username"
       />
-      <div class="w-5/6 text-gray-600 dark:text-gray-400">
+      <div class="w-4/5 text-gray-600 dark:text-gray-400">
         <div class="text-sm sm:text-base font-normal">
           <span class="font-medium text-gray-900 dark:text-white">{{
             title

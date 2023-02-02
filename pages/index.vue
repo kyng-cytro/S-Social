@@ -20,13 +20,7 @@
     <span class="sr-only">Loading...</span>
   </div>
   <!-- Post View -->
-  <PostViewDayLayout
-    :showUser="true"
-    :image="currentUser.profileImage"
-    :name="currentUser.username"
-    v-else
-    v-show="data && data.length > 0"
-  >
+  <PostViewDayLayout v-else v-show="data && data.length > 0">
     <PostLayout
       :id="item.id"
       :title="item.title"

@@ -10,7 +10,14 @@ export const postRouter = router({
     .query(async (req) => {
       return await prisma.post.findUnique({
         where: { id: req.input.id },
-        include: { comments: true, author: true },
+        include: {
+          comments: {
+            include: {
+              author: true,
+            },
+          },
+          author: true,
+        },
       });
     }),
   getByAuthor: publicProcedure
@@ -18,9 +25,25 @@ export const postRouter = router({
     .query(async (req) => {
       return await prisma.post.findMany({
         where: {
-          author: { followers: { some: { followerId: req.input.author_id } } },
+          OR: [
+            {
+              author: { id: req.input.author_id },
+            },
+            {
+              author: {
+                followers: { some: { followerId: req.input.author_id } },
+              },
+            },
+          ],
         },
-        include: { comments: true, author: true },
+        include: {
+          comments: {
+            include: {
+              author: true,
+            },
+          },
+          author: true,
+        },
         orderBy: { createdAt: "desc" },
       });
     }),

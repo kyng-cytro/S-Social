@@ -4,7 +4,11 @@
       :to="'/user/' + name"
       class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-9 top-3 ring-white dark:ring-gray-900 dark:bg-blue-900"
     >
-      <img class="rounded-full shadow-lg" :src="src" :alt="name + ' image'" />
+      <nuxt-img
+        class="rounded-full shadow-lg"
+        :src="src"
+        :alt="name + ' image'"
+      />
     </NuxtLink>
     <div
       class="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600"
