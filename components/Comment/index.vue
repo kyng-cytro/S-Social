@@ -8,6 +8,7 @@
         class="rounded-full shadow-lg"
         :src="src"
         :alt="name + ' image'"
+        placeholder
       />
     </NuxtLink>
     <div

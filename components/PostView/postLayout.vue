@@ -8,6 +8,7 @@
         class="w-12 h-12 mb-3 mr-3 rounded-full sm:mb-0"
         :src="profile_image"
         :alt="username"
+        placeholder
       />
       <div class="w-4/5 text-gray-600 dark:text-gray-400">
         <div class="text-sm sm:text-base font-normal">

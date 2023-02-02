@@ -11,6 +11,7 @@
             class="w-8 h-8 rounded-full sm:mb-0 ring-2 ring-gray-300 dark:ring-gray-500"
             :src="post.author.profileImage"
             :alt="post.author.username"
+            placeholder
           />
           <span class="text-lg font-semibold text-gray-900 dark:text-white">{{
             post.author.username
