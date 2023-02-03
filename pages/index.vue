@@ -62,7 +62,7 @@ if (!currentUser.value.id) {
 }
 
 const { data, pending } = await $client.posts.getByAuthor.useQuery(
-  { author_id: currentUser.value.id },
+  { authorId: currentUser.value.id },
   {
     lazy: true,
   }

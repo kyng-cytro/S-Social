@@ -19,7 +19,9 @@ const currentUser = useLocalStorage("user", {
 });
 
 const get_user = async (username: string) => {
-  const { data } = await $client.users.getByUserName.useQuery({ username });
+  const { data } = await $client.users.getByUserName.useQuery({
+    userName: username,
+  });
   if (data.value && data.value.id) {
     return data.value.id;
   }
@@ -28,8 +30,8 @@ const get_user = async (username: string) => {
 const handle_click = async () => {
   loading.value = true;
   $client.users.followUser.mutate({
-    id: currentUser.value.id,
-    friend_id: (await get_user(username as string)) ?? "",
+    userId: currentUser.value.id,
+    friendId: (await get_user(username as string)) ?? "",
   });
   loading.value = false;
 };

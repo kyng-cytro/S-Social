@@ -95,7 +95,7 @@ const handle_submit = async () => {
   };
   try {
     const user = await $client.users.createUser.mutate({
-      username: username.value,
+      userName: username.value,
       profileImage: `${avatar_prefix.value}?seed=${username.value}`,
     });
     currentUser.value = {

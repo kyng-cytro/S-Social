@@ -1,15 +1,23 @@
 import { z } from "zod";
 import { publicProcedure, router } from "~/server/trpc/trpc";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Post } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+// const postShape = z.object({
+//   id: z.string().min(1),
+//   title: z.string().min(1),
+//   content: z.string().min(1),
+//   isPrivate: z.boolean(),
+//   userId: z.string().min(1),
+// });
+
 export const postRouter = router({
   getById: publicProcedure
-    .input(z.object({ id: z.string().min(1) }))
+    .input(z.object({ postId: z.string().min(1) }))
     .query(async (req) => {
       return await prisma.post.findUnique({
-        where: { id: req.input.id },
+        where: { id: req.input.postId },
         include: {
           comments: {
             include: {
@@ -21,17 +29,17 @@ export const postRouter = router({
       });
     }),
   getByAuthor: publicProcedure
-    .input(z.object({ author_id: z.string().min(1) }))
+    .input(z.object({ authorId: z.string().min(1) }))
     .query(async (req) => {
       return await prisma.post.findMany({
         where: {
           OR: [
             {
-              author: { id: req.input.author_id },
+              author: { id: req.input.authorId },
             },
             {
               author: {
-                followers: { some: { followerId: req.input.author_id } },
+                followers: { some: { followerId: req.input.authorId } },
               },
             },
           ],
@@ -57,22 +65,38 @@ export const postRouter = router({
   addComment: publicProcedure
     .input(
       z.object({
-        post_id: z.string(),
-        user_id: z.string(),
+        postId: z.string(),
+        userId: z.string(),
         text: z.string(),
       })
     )
     .mutation(async (req) => {
       return await prisma.post.update({
-        where: { id: req.input.post_id },
+        where: { id: req.input.postId },
         data: {
           comments: {
             create: {
               text: req.input.text,
-              userId: req.input.user_id,
+              userId: req.input.userId,
             },
           },
         },
+      });
+    }),
+  updatePost: publicProcedure
+    .input(
+      z.object({
+        id: z.string().min(1),
+        title: z.string().min(1),
+        content: z.string().min(1),
+        isPrivate: z.boolean(),
+        userId: z.string().min(1),
+      })
+    )
+    .mutation(async (req) => {
+      return await prisma.post.update({
+        where: { id: req.input.id },
+        data: req.input,
       });
     }),
   createPost: publicProcedure
@@ -87,6 +111,17 @@ export const postRouter = router({
     .mutation(async (req) => {
       return await prisma.post.create({
         data: req.input,
+      });
+    }),
+  deletePost: publicProcedure
+    .input(
+      z.object({
+        postId: z.string().min(1),
+      })
+    )
+    .mutation(async (req) => {
+      return await prisma.post.delete({
+        where: { id: req.input.postId },
       });
     }),
 });

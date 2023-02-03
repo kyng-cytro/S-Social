@@ -6,17 +6,17 @@ const prisma = new PrismaClient();
 
 export const userRouter = router({
   getById: publicProcedure
-    .input(z.object({ id: z.string().min(1) }))
+    .input(z.object({ userId: z.string().min(1) }))
     .query(async (req) => {
       return await prisma.user.findUnique({
-        where: { id: req.input.id },
+        where: { id: req.input.userId },
       });
     }),
   getByUserName: publicProcedure
-    .input(z.object({ username: z.string().min(6).max(12) }))
+    .input(z.object({ userName: z.string().min(6).max(12) }))
     .query(async (req) => {
       return await prisma.user.findUnique({
-        where: { username: req.input.username },
+        where: { username: req.input.userName },
       });
     }),
   getAllUsers: publicProcedure.query(async (req) => {
@@ -25,7 +25,7 @@ export const userRouter = router({
   createUser: publicProcedure
     .input(
       z.object({
-        username: z
+        userName: z
           .string()
           .min(6, { message: "username should be at least 6 characters" })
           .max(12, { message: "username should be no more than 12 characters" })
@@ -38,7 +38,7 @@ export const userRouter = router({
     .mutation(async (req) => {
       return await prisma.user.create({
         data: {
-          username: req.input.username,
+          username: req.input.userName,
           profileImage: req.input.profileImage,
         },
       });
@@ -46,17 +46,17 @@ export const userRouter = router({
   followUser: publicProcedure
     .input(
       z.object({
-        id: z.string().min(1),
-        friend_id: z.string().min(1),
+        userId: z.string().min(1),
+        friendId: z.string().min(1),
       })
     )
     .mutation(async (req) => {
       return await prisma.user.update({
-        where: { id: req.input.id },
+        where: { id: req.input.userId },
         data: {
           following: {
             create: {
-              followingId: req.input.friend_id,
+              followingId: req.input.friendId,
             },
           },
         },
