@@ -1,5 +1,13 @@
 <template>
-  <form @submit.prevent="handle_submit" class="w-full max-w-lg" v-if="post">
+  <!-- Loading animation -->
+  <Loading v-if="pending" />
+
+  <!-- Post Edit View -->
+  <form
+    @submit.prevent="handle_submit"
+    class="w-full max-w-lg"
+    v-if="post && !pending"
+  >
     <p class="text-center text-sm text-red-500" v-show="showError.status">
       {{ showError.message }}
     </p>
@@ -69,7 +77,7 @@ const showError = ref({
   message: "",
 });
 
-const { data: post } = await $client.posts.getById.useQuery(
+const { data: post, pending } = await $client.posts.getById.useQuery(
   { postId: id },
   { lazy: true }
 );
@@ -98,6 +106,7 @@ const handle_submit = async () => {
   }
   try {
     const new_post = await $client.posts.updatePost.mutate(post.value);
+    loading.value = false;
     if (new_post) {
       navigateTo("/");
     }

@@ -13,10 +13,32 @@ export const userRouter = router({
       });
     }),
   getByUserName: publicProcedure
-    .input(z.object({ userName: z.string().min(6).max(12) }))
+    .input(
+      z.object({
+        userName: z.string().min(1),
+        full: z.boolean().default(false),
+      })
+    )
     .query(async (req) => {
       return await prisma.user.findUnique({
         where: { username: req.input.userName },
+        include: {
+          followers: {
+            include: {
+              follower: true,
+            },
+          },
+          following: {
+            include: {
+              following: true,
+            },
+          },
+          posts: req.input.full
+            ? {
+                where: { isPrivate: false },
+              }
+            : false,
+        },
       });
     }),
   getAllUsers: publicProcedure.query(async (req) => {
@@ -29,7 +51,11 @@ export const userRouter = router({
           .string()
           .min(6, { message: "username should be at least 6 characters" })
           .max(12, { message: "username should be no more than 12 characters" })
-          .trim(),
+          .trim()
+          .regex(new RegExp("^[a-z0-9_]+$"), {
+            message:
+              "username should only contains alphanumeric characters and underscores",
+          }),
         profileImage: z
           .string()
           .min(1, { message: "Error grabbing profile image" }),

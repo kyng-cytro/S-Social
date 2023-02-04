@@ -4,14 +4,6 @@ import { PrismaClient, Post } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// const postShape = z.object({
-//   id: z.string().min(1),
-//   title: z.string().min(1),
-//   content: z.string().min(1),
-//   isPrivate: z.boolean(),
-//   userId: z.string().min(1),
-// });
-
 export const postRouter = router({
   getById: publicProcedure
     .input(z.object({ postId: z.string().min(1) }))
@@ -120,8 +112,16 @@ export const postRouter = router({
       })
     )
     .mutation(async (req) => {
-      return await prisma.post.delete({
+      const deleteComments = prisma.comment.deleteMany({
+        where: {
+          postId: req.input.postId,
+        },
+      });
+
+      const deletePost = prisma.post.delete({
         where: { id: req.input.postId },
       });
+
+      return await prisma.$transaction([deleteComments, deletePost]);
     }),
 });

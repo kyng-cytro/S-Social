@@ -1,6 +1,10 @@
 <template>
-  <div class="w-full flex space-y-5 flex-col max-w-4xl mb-4">
-    <div class="flex flex-col space-y-2 flex-1" v-if="post">
+  <!-- Loading animation  NOTE: user !post and not pending here because of refresh -->
+  <Loading v-if="!post" />
+
+  <!-- Post Details View -->
+  <div class="w-full flex space-y-5 flex-col max-w-4xl mb-4" v-if="post">
+    <div class="flex flex-col space-y-2 flex-1">
       <div class="mb-3 flex w-full justify-between items-center">
         <!-- User Modal -->
         <NuxtLink
@@ -42,6 +46,7 @@
           <button
             class="p-2 hover:dark:bg-slate-700 hover:bg-slate-300 rounded-full"
             title="Delete Post"
+            @click="delete_post"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -102,32 +107,17 @@
   </div>
 </template>
 
-<style>
-/* Hide scrollbar for Chrome, Safari and Opera */
-.hide-scroll-bar::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-.hide-scroll-bar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-</style>
-
 <script lang="ts" setup>
 const { $client } = useNuxtApp();
 
 let { id } = useRoute().params;
-
-id = id as string;
 
 const loading = ref(false);
 
 const new_comment = ref("");
 
 const { data: post, refresh } = await $client.posts.getById.useQuery(
-  { postId: id },
+  { postId: id as string },
   { lazy: true }
 );
 
@@ -163,6 +153,17 @@ const handle_submit = async () => {
       message: "Something went wrong",
     };
     loading.value = false;
+  }
+};
+
+const delete_post = async () => {
+  if (
+    confirm("Delete post?") &&
+    post.value &&
+    currentUser.value.id == post.value.author.id
+  ) {
+    await $client.posts.deletePost.mutate({ postId: id as string });
+    navigateTo("/");
   }
 };
 </script>

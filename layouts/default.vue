@@ -9,3 +9,16 @@
     <Footer class="mt-5" />
   </div>
 </template>
+
+<style>
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hide-scroll-bar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scroll-bar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+</style>

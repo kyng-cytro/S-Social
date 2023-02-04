@@ -24,9 +24,9 @@
           v-model="username"
           class="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="cytro..."
-          pattern=".{6,12}"
+          pattern="^[a-z0-9_]{6,12}$"
           required
-          title="Username should be a minimum of 6 characters and not more than 12 characters"
+          title="Username must be 6-12 characters and can only contain a-z, 0-9, and _."
         />
       </div>
     </div>
