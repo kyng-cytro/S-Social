@@ -1,10 +1,41 @@
 <template>
   <!-- Loading animation -->
-  <Loading v-if="pending" />
+  <Loading v-if="!user" />
 
   <!-- User Details View -->
-  <div class="w-full max-w-4xl flex flex-col" v-if="user && !pending">
-    <div class="h-1/3 border border-gray-400 bg-black rounded-xl mb-4"></div>
+  <div class="w-full max-w-4xl flex flex-col" v-if="user">
+    <div
+      class="border border-slate-300 bg-slate-200 dark:bg-gray-800 dark:border-gray-700 rounded-xl mb-4 flex items-center justify-between px-6 py-6"
+    >
+      <div class="flex items-start flex-col space-y-2">
+        <nuxt-img
+          class="h-16 w-16 border-2 border-gray-400 rounded-full"
+          :src="user.profileImage"
+        />
+        <h2 class="font-semibold">{{ user.username }}</h2>
+        <div class="text-xs text-gray-500 dark:text-gray-400 space-x-3">
+          <button class="tracking-tighter hover:underline" @click="tab = 1">
+            {{ user._count.followers }} Followers
+          </button>
+          <button class="tracking-tighter hover:underline" @click="tab = 2">
+            {{ user._count.following }} Following
+          </button>
+        </div>
+      </div>
+      <div
+        class="flex items-center"
+        v-if="currentUser && user.id != currentUser.id"
+      >
+        <button
+          class="text-sm bg-black rounded-xl p-2 text-white"
+          :class="following ? 'hover:bg-red-500' : 'hover:bg-gray-700'"
+          @click="handle_follow"
+        >
+          {{ following ? "Unfollow" : "Follow" }}
+        </button>
+      </div>
+    </div>
+
     <div class="flex flex-1 flex-col items-center">
       <!-- Nav -->
       <div
@@ -159,22 +190,52 @@ const currentUser = useLocalStorage("user", {
   profileImage: "",
 });
 
-const { data: user, pending } = await $client.users.getByUserName.useQuery(
-  {
-    userName: username,
-    full: true,
-  },
-  { lazy: true }
-);
+const { data: user, refresh: updateUser } =
+  await $client.users.getByUserName.useQuery(
+    {
+      userName: username,
+      full: true,
+    },
+    { lazy: true }
+  );
 
-const handle_follow = async () => {
+const { data: following, refresh: updateFollow } =
+  await $client.users.isFollowing.useQuery(
+    {
+      userId: currentUser.value.id,
+      friendId: user.value ? user.value.id : "",
+    },
+    {
+      lazy: true,
+    }
+  );
+
+const handle_unfollow = async () => {
   loading.value = true;
-  if (!user.value) return;
+  if (!user.value || !currentUser.value) return;
   try {
-    $client.users.followUser.mutate({
+    await $client.users.unFollowUser.mutate({
       userId: currentUser.value.id,
       friendId: user.value.id,
     });
+    updateUser();
+    updateFollow();
+    loading.value = false;
+  } catch (e) {
+    loading.value = false;
+  }
+};
+
+const handle_follow = async () => {
+  loading.value = true;
+  if (!user.value || !currentUser.value) return;
+  try {
+    await $client.users.followUser.mutate({
+      userId: currentUser.value.id,
+      friendId: user.value.id,
+    });
+    updateUser();
+    updateFollow();
     loading.value = false;
   } catch (e) {
     loading.value = false;

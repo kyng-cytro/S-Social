@@ -23,6 +23,7 @@ export const userRouter = router({
       return await prisma.user.findUnique({
         where: { username: req.input.userName },
         include: {
+          _count: { select: { followers: true, following: true } },
           followers: {
             include: {
               follower: true,
@@ -84,6 +85,40 @@ export const userRouter = router({
             create: {
               followingId: req.input.friendId,
             },
+          },
+        },
+      });
+    }),
+  unFollowUser: publicProcedure
+    .input(
+      z.object({
+        userId: z.string().min(1),
+        friendId: z.string().min(1),
+      })
+    )
+    .mutation(async (req) => {
+      return await prisma.follows.delete({
+        where: {
+          followerId_followingId: {
+            followerId: req.input.userId,
+            followingId: req.input.friendId,
+          },
+        },
+      });
+    }),
+  isFollowing: publicProcedure
+    .input(
+      z.object({
+        userId: z.string().min(1),
+        friendId: z.string().min(1),
+      })
+    )
+    .query(async (req) => {
+      return await prisma.follows.findUnique({
+        where: {
+          followerId_followingId: {
+            followerId: req.input.userId,
+            followingId: req.input.friendId,
           },
         },
       });
