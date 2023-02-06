@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-const { to } = defineProps({
+defineProps({
   to: {
     type: String,
   },

@@ -1,40 +1,23 @@
 <template>
   <!-- Loading animation -->
-  <Loading v-if="!user" />
+  <Loading v-if="!user && pending" />
 
-  <!-- User Details View -->
+  <!-- Container -->
   <div class="w-full max-w-4xl flex flex-col" v-if="user">
-    <div
-      class="border border-slate-300 bg-slate-200 dark:bg-gray-800 dark:border-gray-700 rounded-xl mb-4 flex items-center justify-between px-6 py-6"
-    >
-      <div class="flex items-start flex-col space-y-2">
-        <nuxt-img
-          class="h-16 w-16 border-2 border-gray-400 rounded-full"
-          :src="user.profileImage"
-        />
-        <h2 class="font-semibold">{{ user.username }}</h2>
-        <div class="text-xs text-gray-500 dark:text-gray-400 space-x-3">
-          <button class="tracking-tighter hover:underline" @click="tab = 1">
-            {{ user._count.followers }} Followers
-          </button>
-          <button class="tracking-tighter hover:underline" @click="tab = 2">
-            {{ user._count.following }} Following
-          </button>
-        </div>
-      </div>
-      <div
-        class="flex items-center"
-        v-if="currentUser && user.id != currentUser.id"
-      >
-        <button
-          class="text-sm bg-black rounded-xl p-2 text-white"
-          :class="following ? 'hover:bg-red-500' : 'hover:bg-gray-700'"
-          @click="handle_follow"
-        >
-          {{ following ? "Unfollow" : "Follow" }}
-        </button>
-      </div>
-    </div>
+    <!-- User Details View -->
+    <UserDetailsView
+      :username="user.username"
+      :profileImage="user.profileImage"
+      :followers="user._count.followers"
+      :following="user._count.following"
+      :user_id="currentUser.id"
+      :friend_id="user.id"
+      :logout="false"
+      :follow="true"
+      :is_following="is_following ? true : false"
+      :loading="loading"
+      @handle_follow="handle_click"
+    />
 
     <div class="flex flex-1 flex-col items-center">
       <!-- Nav -->
@@ -171,6 +154,14 @@
       </div>
     </div>
   </div>
+
+  <!-- No User -->
+  <UserNoUser
+    title="User Not Found"
+    buttonText="Go Home"
+    v-if="!user && !pending"
+    @navigate="navigateTo('/')"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -190,25 +181,37 @@ const currentUser = useLocalStorage("user", {
   profileImage: "",
 });
 
-const { data: user, refresh: updateUser } =
-  await $client.users.getByUserName.useQuery(
-    {
-      userName: username,
-      full: true,
-    },
-    { lazy: true }
-  );
+const {
+  data: user,
+  pending,
+  refresh: updateUser,
+} = await $client.users.getByUserName.useQuery(
+  {
+    userName: username,
+    full: true,
+  },
+  { lazy: true }
+);
 
-const { data: following, refresh: updateFollow } =
+const { data: is_following, refresh: updateRelation } =
   await $client.users.isFollowing.useQuery(
     {
       userId: currentUser.value.id,
-      friendId: user.value ? user.value.id : "",
+      friend: username,
     },
     {
       lazy: true,
+      server: false,
     }
   );
+
+const handle_click = () => {
+  if (is_following.value) {
+    handle_unfollow();
+  } else {
+    handle_follow();
+  }
+};
 
 const handle_unfollow = async () => {
   loading.value = true;
@@ -218,8 +221,8 @@ const handle_unfollow = async () => {
       userId: currentUser.value.id,
       friendId: user.value.id,
     });
-    updateUser();
-    updateFollow();
+    await updateUser();
+    await updateRelation();
     loading.value = false;
   } catch (e) {
     loading.value = false;
@@ -234,8 +237,8 @@ const handle_follow = async () => {
       userId: currentUser.value.id,
       friendId: user.value.id,
     });
-    updateUser();
-    updateFollow();
+    await updateUser();
+    await updateRelation();
     loading.value = false;
   } catch (e) {
     loading.value = false;

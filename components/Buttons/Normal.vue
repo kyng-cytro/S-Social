@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-const { loading, text } = defineProps({
+defineProps({
   loading: {
     type: Boolean,
   },

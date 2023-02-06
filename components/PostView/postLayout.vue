@@ -26,26 +26,24 @@
 </template>
 
 <script lang="ts" setup>
-const { title, content, username, profile_image, id, is_private } = defineProps(
-  {
-    title: {
-      type: String,
-    },
-    content: {
-      type: String,
-    },
-    username: {
-      type: String,
-    },
-    profile_image: {
-      type: String,
-    },
-    id: {
-      type: String,
-    },
-    is_private: {
-      type: Boolean,
-    },
-  }
-);
+defineProps({
+  title: {
+    type: String,
+  },
+  content: {
+    type: String,
+  },
+  username: {
+    type: String,
+  },
+  profile_image: {
+    type: String,
+  },
+  id: {
+    type: String,
+  },
+  is_private: {
+    type: Boolean,
+  },
+});
 </script>

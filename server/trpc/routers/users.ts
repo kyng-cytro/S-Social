@@ -110,15 +110,21 @@ export const userRouter = router({
     .input(
       z.object({
         userId: z.string().min(1),
-        friendId: z.string().min(1),
+        friend: z.string().min(1),
       })
     )
     .query(async (req) => {
+      const user = await prisma.user.findUnique({
+        where: { username: req.input.friend },
+      });
+
+      if (!user) return;
+
       return await prisma.follows.findUnique({
         where: {
           followerId_followingId: {
             followerId: req.input.userId,
-            followingId: req.input.friendId,
+            followingId: user.id,
           },
         },
       });

@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-const { name, src, date, text } = defineProps({
+defineProps({
   name: { type: String, required: true },
   src: { type: String, required: true },
   date: { type: String, required: true },

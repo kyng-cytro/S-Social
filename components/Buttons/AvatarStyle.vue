@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-const { src, name, avatar } = defineProps({
+defineProps({
   src: String,
   name: String,
   avatar: String,
