@@ -45,6 +45,21 @@ export const userRouter = router({
   getAllUsers: publicProcedure.query(async (req) => {
     return await prisma.user.findMany({});
   }),
+
+  claimAccount: publicProcedure
+    .input(
+      z.object({
+        code: z.string().min(1),
+      })
+    )
+    .query(async (req) => {
+      return await prisma.user.findUnique({
+        where: {
+          claimCode: req.input.code,
+        },
+      });
+    }),
+
   createUser: publicProcedure
     .input(
       z.object({

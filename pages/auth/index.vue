@@ -57,6 +57,9 @@
         />
       </div>
     </div>
+    <NuxtLink to="auth/claim" class="w-full text-sm text-right hover:underline"
+      >Have an account?</NuxtLink
+    >
     <div>
       <ButtonsNormal :loading="loading" text="Get Started" />
     </div>
@@ -84,7 +87,7 @@ const currentUser = useLocalStorage("user", {
 });
 
 if (currentUser.value.id) {
-  navigateTo("/");
+  navigateTo("/user");
 }
 
 const handle_submit = async () => {
@@ -104,7 +107,7 @@ const handle_submit = async () => {
       profileImage: user.profileImage,
     };
     loading.value = false;
-    navigateTo("/");
+    navigateTo("/user");
   } catch (e) {
     showError.value = {
       message: "Username already in use",

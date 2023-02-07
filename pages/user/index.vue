@@ -11,6 +11,7 @@
         :profileImage="user.profileImage"
         :followers="user._count.followers"
         :following="user._count.following"
+        :claimCode="user.claimCode"
         :logout="true"
         :follow="false"
         @handle_logout="handle_logout"
