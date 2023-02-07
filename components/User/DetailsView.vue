@@ -9,10 +9,16 @@
       />
       <h2 class="font-semibold">{{ username }}</h2>
       <div class="text-xs text-gray-500 dark:text-gray-400 space-x-3">
-        <button class="tracking-tighter hover:underline">
+        <button
+          class="tracking-tighter hover:underline"
+          @click="$emit('tab-to-1')"
+        >
           {{ followers }} Followers
         </button>
-        <button class="tracking-tighter hover:underline">
+        <button
+          class="tracking-tighter hover:underline"
+          @click="$emit('tab-to-2')"
+        >
           {{ following }} Following
         </button>
       </div>
@@ -30,7 +36,7 @@
     <!-- Follow Button -->
     <div
       class="flex items-center"
-      v-if="follow && !logout && friend_id != user_id"
+      v-if="follow && !logout && user_id && friend_id != user_id"
     >
       <button
         class="text-sm bg-black rounded-xl p-2 text-white transition-all duration-150 ease-in-out"

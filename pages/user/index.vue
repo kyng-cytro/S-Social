@@ -14,7 +14,56 @@
         :logout="true"
         :follow="false"
         @handle_logout="handle_logout"
+        @tab-to-1="tab = 1"
+        @tab-to-2="tab = 2"
       />
+
+      <!-- Tab View -->
+      <div class="flex flex-1 flex-col items-center">
+        <!-- Nav -->
+        <UserTabNav
+          :tab="tab"
+          @tab-to-0="tab = 0"
+          @tab-to-1="tab = 1"
+          @tab-to-2="tab = 2"
+        />
+
+        <!-- Box -->
+        <div
+          class="overflow-y-scroll hide-scroll-bar flex-1 w-full max-w-4xl p-3 mb-4 border border-slate-300 rounded-lg bg-slate-200 dark:bg-gray-800 dark:border-gray-700"
+        >
+          <!-- Post s-->
+          <UserTabListContainer v-if="tab == 0">
+            <UserTabListPost
+              :id="post.id"
+              :title="post.title"
+              :content="post.content"
+              :key="post.id"
+              v-for="post in user.posts"
+            />
+          </UserTabListContainer>
+
+          <!-- Follower -->
+          <UserTabListContainer v-if="tab == 1">
+            <UserTabListUser
+              :username="friend.follower.username"
+              :profileImage="friend.follower.profileImage"
+              :key="friend.follower.id"
+              v-for="friend in user.followers"
+            />
+          </UserTabListContainer>
+
+          <!-- Following -->
+          <UserTabListContainer v-if="tab == 2">
+            <UserTabListUser
+              :username="friend.following.username"
+              :profileImage="friend.following.profileImage"
+              :key="friend.following.id"
+              v-for="friend in user.following"
+            />
+          </UserTabListContainer>
+        </div>
+      </div>
     </div>
 
     <!-- No User -->
