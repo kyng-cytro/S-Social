@@ -1,5 +1,28 @@
 <template>
-  <nav class="border-b border-gray-200 dark:border-gray-700">
+  <nav
+    class="border-b border-gray-200 dark:border-gray-700 flex items-center gap-3"
+  >
+    <button
+      class="inline-flex py-4 px-2 text-gray-500 dark:text-gray-400 border-b-2 border-transparent rounded-t-lg hover:text-blue-600 hover:border-blue-600 dark:hover:text-blue-500 focus:text-blue-600 focus:border-blue-500 dark:focus:text-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-300 focus:dark:ring-blue-600"
+      v-show="current != '/' && current != '/auth'"
+      @click="$router.back()"
+    >
+      <svg
+        fill="none"
+        class="w-5 h-5 hover:text-blue-600 dark:hover:text-blue-500"
+        stroke="currentColor"
+        stroke-width="1.5"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M15.75 19.5L8.25 12l7.5-7.5"
+        ></path>
+      </svg>
+    </button>
     <ul
       class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400"
     >
@@ -67,3 +90,9 @@
     </ul>
   </nav>
 </template>
+
+<script lang="ts" setup>
+defineProps({
+  current: String,
+});
+</script>

@@ -70,27 +70,28 @@
     </div>
 
     <!-- Comment Form -->
-    <form @submit.prevent="handle_submit" v-if="currentUser.id">
-      <p
-        class="text-center text-sm text-red-500 mb-2"
-        v-show="showError.status"
-      >
-        {{ showError.message }}
-      </p>
-      <div class="mb-6">
-        <textarea
-          type="text"
-          id="content"
-          v-model="new_comment"
-          rows="2"
-          placeholder="funny stu..."
-          required
-          class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-      <ButtonsNormal class="w-full" :loading="loading" text="Comment" />
-    </form>
-
+    <ClientOnly>
+      <form @submit.prevent="handle_submit" v-if="currentUser.id">
+        <p
+          class="text-center text-sm text-red-500 mb-2"
+          v-show="showError.status"
+        >
+          {{ showError.message }}
+        </p>
+        <div class="mb-6">
+          <textarea
+            type="text"
+            id="content"
+            v-model="new_comment"
+            rows="2"
+            placeholder="funny stu..."
+            required
+            class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </div>
+        <ButtonsNormal class="w-full" :loading="loading" text="Comment" />
+      </form>
+    </ClientOnly>
     <!-- Comment History -->
     <div class="h-60 overflow-y-scroll hide-scroll-bar hide-scroll-bar">
       <span>Comments</span>
