@@ -4,14 +4,14 @@
   >
     <div class="flex items-start flex-col space-y-2">
       <button
-        class="flex items-center gap-2 dark:bg-gray-700 bg-gray-400 py-0.5 px-2 mb-5 text-slate-50 rounded-full text-sm hover:bg-slate-400 hover:dark:bg-slate-800 hover:ring-2 hover:ring-slate-300 hover:dark:ring-slate-700"
+        class="flex items-center w-3/5 gap-2 dark:bg-gray-700 bg-gray-400 py-0.5 px-2 mb-5 text-slate-50 rounded-full text-sm hover:bg-slate-400 hover:dark:bg-slate-800 hover:ring-2 hover:ring-slate-300 hover:dark:ring-slate-700"
         v-if="claimCode"
         @click="copy_claim_code"
       >
         <svg
           fill="none"
           stroke="currentColor"
-          class="h-4 w-4"
+          class="h-5 w-5"
           stroke-width="1.5"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +27,7 @@
         <svg
           fill="none"
           stroke="currentColor"
-          class="h-4 w-4"
+          class="h-5 w-5"
           stroke-width="1.5"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@
           ></path>
         </svg>
         <span v-if="!checked">Copied</span>
-        <span v-else>{{ claimCode }}</span>
+        <span class="truncate text-xs sm:text-sm" v-else>{{ claimCode }}</span>
       </button>
       <nuxt-img
         class="h-16 w-16 border-2 border-gray-400 rounded-full"
@@ -66,7 +66,7 @@
     <!-- Log Out Button -->
     <div class="flex items-center" v-if="logout && !follow">
       <button
-        class="text-sm bg-black rounded-xl p-2 hover:bg-red-500 text-white transition-all duration-150 ease-in-out"
+        class="text-sm bg-black rounded-xl px-1 py-2 sm:px-2 sm:py-2 hover:bg-red-500 text-white transition-all duration-150 ease-in-out"
         @click="$emit('handle_logout')"
       >
         <span>Log Out</span>

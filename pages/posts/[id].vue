@@ -1,4 +1,7 @@
 <template>
+  <Head>
+    <Title>S-Social | {{ post?.title }}</Title>
+  </Head>
   <!-- Loading animation  NOTE: user !post and not pending here because of refresh -->
   <Loading v-if="!post" />
 

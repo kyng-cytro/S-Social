@@ -1,4 +1,7 @@
 <template>
+  <Head>
+    <Title>S-Social | Edit</Title>
+  </Head>
   <!-- Loading animation -->
   <Loading v-if="pending" />
 

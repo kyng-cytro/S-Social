@@ -1,4 +1,7 @@
 <template>
+  <Head>
+    <Title>S-Social | Login</Title>
+  </Head>
   <form
     @submit.prevent="handle_claim"
     class="flex flex-col justify-center space-y-5 items-center"

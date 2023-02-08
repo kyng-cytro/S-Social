@@ -1,4 +1,7 @@
 <template>
+  <Head>
+    <Title>S-Social | Sign Up</Title>
+  </Head>
   <form
     @submit.prevent="handle_submit"
     class="flex flex-col justify-center space-y-5 items-center"
@@ -87,7 +90,7 @@ const currentUser = useLocalStorage("user", {
 });
 
 if (currentUser.value.id) {
-  navigateTo("/user");
+  navigateTo("/");
 }
 
 const handle_submit = async () => {

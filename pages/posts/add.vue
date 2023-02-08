@@ -1,4 +1,7 @@
 <template>
+  <Head>
+    <Title>S-Social | New</Title>
+  </Head>
   <form @submit.prevent="handle_submit" class="w-full max-w-lg">
     <p class="text-center text-sm text-red-500" v-show="showError.status">
       {{ showError.message }}
