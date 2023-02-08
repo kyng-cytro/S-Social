@@ -4,6 +4,7 @@
   >
     <div class="flex items-start flex-col space-y-2">
       <button
+        id="claim-code"
         class="flex items-center w-3/5 gap-2 dark:bg-gray-700 bg-gray-400 py-0.5 px-2 mb-5 text-slate-50 rounded-full text-sm hover:bg-slate-400 hover:dark:bg-slate-800 hover:ring-2 hover:ring-slate-300 hover:dark:ring-slate-700"
         v-if="claimCode"
         @click="copy_claim_code"

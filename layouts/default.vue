@@ -24,7 +24,34 @@
 </style>
 
 <script lang="ts" setup>
+import { init } from "commandbar";
+
+const { $client } = useNuxtApp();
 const route = useRoute();
 const currentRoute = ref("");
+
 watch(route, (to) => (currentRoute.value = to.path));
+
+const { data: users } = $client.users.getAllUsers.useQuery();
+
+onMounted(() => {
+  const currentUser = useLocalStorage("user", {
+    id: "",
+    username: "",
+    profileImage: "",
+  });
+
+  //TODO: use environment variable
+  init("cbc9e276");
+
+  const loggedInUserId = currentUser.value.id;
+
+  window.CommandBar.boot(loggedInUserId).then(() => {
+    window.CommandBar.addRouter(useRouter().push);
+
+    if (users.value) {
+      window.CommandBar.addRecords("users", users.value);
+    }
+  });
+});
 </script>
