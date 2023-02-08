@@ -100,7 +100,7 @@ const { data: user, pending } = await $client.users.getByUserName.useQuery(
 );
 
 const handle_logout = () => {
-  if (confirm("Are you sure you want to log out")) {
+  if (confirm("Log out? be sure to save your claim code first")) {
     handle_clear_user();
     navigateTo("/auth");
   }

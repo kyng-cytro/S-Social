@@ -75,7 +75,6 @@ const showError = ref({
 });
 
 const handle_submit = async () => {
-  console.log(title.value);
   loading.value = true;
   showError.value = {
     status: false,
