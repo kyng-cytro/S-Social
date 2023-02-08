@@ -10,6 +10,12 @@ S-Social is a mini social media 💻 built with Nuxt.js, Vue.js, TypeScript, TRP
 - Creating, editing, and deleting posts 📝
 - Viewing user profiles and their posts 👥
 - Simple and easy-to-use interface 💻
+- Command bar for power users
+
+## 📝 Todo
+
+- State management
+- Notifications
 
 ## 🚀 Getting started
 

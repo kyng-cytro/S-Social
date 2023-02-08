@@ -11,20 +11,19 @@
 </template>
 
 <style>
-/* Hide scrollbar for Chrome, Safari and Opera */
 .hide-scroll-bar::-webkit-scrollbar {
   display: none;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
 .hide-scroll-bar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 </style>
 
 <script lang="ts" setup>
 import { init } from "commandbar";
+import { Post } from "@prisma/client";
 
 const { $client } = useNuxtApp();
 const route = useRoute();
@@ -34,11 +33,21 @@ watch(route, (to) => (currentRoute.value = to.path));
 
 const { data: users } = $client.users.getAllUsers.useQuery();
 
-onMounted(() => {
+const deletePost = async ({ record }: any) => {
+  const post = record as Post;
+  await $client.posts.deletePost.mutate({ postId: post.id });
+  useRouter().go();
+};
+
+onMounted(async () => {
   const currentUser = useLocalStorage("user", {
     id: "",
     username: "",
     profileImage: "",
+  });
+
+  const { data: posts } = await $client.posts.getByAuthor.useQuery({
+    authorId: currentUser.value.id,
   });
 
   //TODO: use environment variable
@@ -49,8 +58,14 @@ onMounted(() => {
   window.CommandBar.boot(loggedInUserId).then(() => {
     window.CommandBar.addRouter(useRouter().push);
 
+    window.CommandBar.addCallback("delete_post", deletePost);
+
     if (users.value) {
       window.CommandBar.addRecords("users", users.value);
+    }
+
+    if (posts.value) {
+      window.CommandBar.addRecords("posts", posts.value);
     }
   });
 });
