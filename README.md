@@ -14,21 +14,17 @@ S-Social is a mini social media 💻 built with Nuxt.js, Vue.js, TypeScript, TRP
 
 ## 📸 Screenshots
 
-**Auth**
-![Auth Page](https://imgur.com/8TXN6MTl.png "Auth Page")
+![Auth Page](https://imgur.com/nkCh114.png "Auth Page")
 
-**User**
-![Profile Page](https://imgur.com/EZG5YBal.png "Profile Page")
+![Profile Page](https://imgur.com/40svL83.png "Profile Page")
 
-**Post**
-![Create Post](https://imgur.com/q9UOdMPl.png "CreatePost")
+![Create Post](https://imgur.com/vhAmR4j.png "CreatePost")
 
-**Explore**
-![Explore](https://imgur.com/urqNhaHl.png "Explore Page")
+![Explore](https://imgur.com/1W8k1eM.png "Explore Page")
 
 ## 📝 Todo
 
-- State management
+- Global State management
 - Notifications
 
 ## 🚀 Getting started
