@@ -2,7 +2,7 @@
 
 S-Social is a mini social media 💻 built with Nuxt.js, Vue.js, TypeScript, TRPC, and Prisma 🚀. It aims to provide nothing 🤣 i just figured why not test out TRPC & Prisma 🤓
 
-**Disclaimer: S-Social is probably unsecured and vulnerable, so use it at your own risk! 🚨💥**
+**Disclaimer: S-Social is probably unsecure and vulnerable, so use it at your own risk! 🚨💥**
 
 ## 📚 Features
 
