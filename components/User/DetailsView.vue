@@ -123,7 +123,10 @@ const { claimCode } = defineProps({
   claimCode: String,
 });
 
-const { ready: checked, start } = useTimeout(2000, { controls: true });
+const { ready: checked, start } = useTimeout(2000, {
+  controls: true,
+  immediate: false,
+});
 
 const { copy } = useClipboard();
 
