@@ -68,7 +68,9 @@
       </div>
       <div class="flex-1 pl-2">
         <h3 class="font-bold text-lg mb-3">{{ post.title }}</h3>
-        <p class="text-gray-600 dark:text-gray-400">{{ post.content }}</p>
+        <p class="text-gray-600 dark:text-gray-400 whitespace-pre-wrap">
+          {{ post.content }}
+        </p>
       </div>
     </div>
 
