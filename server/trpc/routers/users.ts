@@ -17,7 +17,7 @@ export const userRouter = router({
       z.object({
         userName: z.string().min(1),
         full: z.boolean().default(false),
-      })
+      }),
     )
     .query(async (req) => {
       return await prisma.user.findUnique({
@@ -42,7 +42,7 @@ export const userRouter = router({
         },
       });
     }),
-  getAllUsers: publicProcedure.query(async (req) => {
+  getAllUsers: publicProcedure.query(async () => {
     return await prisma.user.findMany({});
   }),
 
@@ -50,7 +50,7 @@ export const userRouter = router({
     .input(
       z.object({
         code: z.string().min(1),
-      })
+      }),
     )
     .query(async (req) => {
       return await prisma.user.findUnique({
@@ -65,17 +65,17 @@ export const userRouter = router({
       z.object({
         userName: z
           .string()
-          .min(6, { message: "username should be at least 6 characters" })
-          .max(12, { message: "username should be no more than 12 characters" })
+          .min(3, { message: "username should be at least 3 characters" })
+          .max(20, { message: "username should be no more than 20 characters" })
           .trim()
-          .regex(new RegExp("^[a-z0-9_]+$"), {
+          .regex(new RegExp("^[a-zA-Z0-9_]"), {
             message:
               "username should only contains alphanumeric characters and underscores",
           }),
         profileImage: z
           .string()
           .min(1, { message: "Error grabbing profile image" }),
-      })
+      }),
     )
     .mutation(async (req) => {
       return await prisma.user.create({
@@ -90,7 +90,7 @@ export const userRouter = router({
       z.object({
         userId: z.string().min(1),
         friendId: z.string().min(1),
-      })
+      }),
     )
     .mutation(async (req) => {
       return await prisma.user.update({
@@ -109,7 +109,7 @@ export const userRouter = router({
       z.object({
         userId: z.string().min(1),
         friendId: z.string().min(1),
-      })
+      }),
     )
     .mutation(async (req) => {
       return await prisma.follows.delete({
@@ -126,7 +126,7 @@ export const userRouter = router({
       z.object({
         userId: z.string().min(1),
         friend: z.string().min(1),
-      })
+      }),
     )
     .query(async (req) => {
       const user = await prisma.user.findUnique({
